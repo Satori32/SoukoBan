@@ -71,16 +71,16 @@ int main() {
 		if (key == 27) { break; }
 
 		if (key == 'w') {
-			SS.MoveHero(SoukoBanSystem::Direcion::Down);
+			SS.MoveHero(SoukoBanSystem::Direction::Down);
 		}
 		if (key == 's') {
-			SS.MoveHero(SoukoBanSystem::Direcion::Up);
+			SS.MoveHero(SoukoBanSystem::Direction::Up);
 		}
 		if (key == 'a') {
-			SS.MoveHero(SoukoBanSystem::Direcion::Left);
+			SS.MoveHero(SoukoBanSystem::Direction::Left);
 		}
 		if (key == 'd') {
-			SS.MoveHero(SoukoBanSystem::Direcion::Right);
+			SS.MoveHero(SoukoBanSystem::Direction::Right);
 		}
 		std::cin.clear();
 	}

@@ -3,16 +3,14 @@
 #include <cstdint>
 #include <tuple>
 
-
 #include "SoukoBanField.h"
-
 
 class SoukoBanSystem {
 	typedef std::tuple<std::uintmax_t, std::uintmax_t> Point;
 	typedef std::vector<Point> Points;
 public:
 
-	enum class Direcion :std::uint8_t {
+	enum class Direction :std::uint8_t {
 		Up,
 		Right,
 		Down,
@@ -33,7 +31,7 @@ public:
 		return true;
 	}
 
-	bool MoveHako(std::uintmax_t X, std::uintmax_t Y, Direcion D) {
+	bool MoveHako(std::uintmax_t X, std::uintmax_t Y, Direction D) {
 		std::vector<std::int8_t> XM{ 0,1,0, -1 };
 		std::vector<std::int8_t> YM{ 1,0, -1,0 };
 
@@ -60,7 +58,7 @@ public:
 	bool OnHero(std::uintmax_t X, std::uintmax_t Y)const {
 		return std::get<0>(Hero) == X && std::get<1>(Hero) == Y;
 	}
-	bool MoveHero(Direcion D) {
+	bool MoveHero(Direction D) {
 		std::vector<std::int8_t> XM{ 0,1,0, -1 };
 		std::vector<std::int8_t> YM{ 1,0, -1,0 };
 		std::uint8_t Dir = static_cast<std::uint8_t>(D) % 4;
