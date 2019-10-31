@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <tuple>
 
+
 #include "SoukoBanField.h"
 
 
@@ -11,7 +12,7 @@ class SoukoBanSystem {
 	typedef std::vector<Point> Points;
 public:
 
-	enum {
+	enum class Direcion :std::uint8_t {
 		Up,
 		Right,
 		Down,
@@ -32,11 +33,14 @@ public:
 		return true;
 	}
 
-	bool MoveHako(std::uintmax_t X, std::uintmax_t Y, std::uint8_t Dir) {
-		std::int8_t XM[]{ 0,1,0, -1 };
-		std::int8_t YM[]{ 1,0, -1,0 };
+	bool MoveHako(std::uintmax_t X, std::uintmax_t Y, Direcion D) {
+		std::vector<std::int8_t> XM{ 0,1,0, -1 };
+		std::vector<std::int8_t> YM{ 1,0, -1,0 };
+
 		if (!HaveHako(X, Y)) { return false; }
-		Dir %= 4;
+
+		std::uint8_t Dir = static_cast<std::uint8_t>(D) % 4;
+
 		std::intmax_t ID = GetHakoID(X, Y);
 
 		if (ID == -1) { return false; }
@@ -56,14 +60,14 @@ public:
 	bool OnHero(std::uintmax_t X, std::uintmax_t Y)const {
 		return std::get<0>(Hero) == X && std::get<1>(Hero) == Y;
 	}
-	bool MoveHero(std::uint8_t Dir) {
-		std::int8_t XM[]{ 0,1,0, -1 };
-		std::int8_t YM[]{ 1,0, -1,0 };
-		Dir %= 4;
+	bool MoveHero(Direcion D) {
+		std::vector<std::int8_t> XM{ 0,1,0, -1 };
+		std::vector<std::int8_t> YM{ 1,0, -1,0 };
+		std::uint8_t Dir = static_cast<std::uint8_t>(D) % 4;
 		if (!InRange(std::get<0>(Hero) + XM[Dir], std::get<1>(Hero) + YM[Dir])) { return false; }
 		if (SF.HaveWall(std::get<0>(Hero) + XM[Dir], std::get<1>(Hero) + YM[Dir])) { return false; }
 		if (HaveHako(std::get<0>(Hero) + XM[Dir], std::get<1>(Hero) + YM[Dir])) {
-			if (!MoveHako(std::get<0>(Hero) + XM[Dir], std::get<1>(Hero) + YM[Dir], Dir)) { return false; };
+			if (!MoveHako(std::get<0>(Hero) + XM[Dir], std::get<1>(Hero) + YM[Dir], D)) { return false; };
 		}
 		if (!InRange(std::get<0>(Hero) + XM[Dir], std::get<1>(Hero) + YM[Dir])) { return false; }
 		std::get<0>(Hero) += XM[Dir];
@@ -115,7 +119,7 @@ public:
 protected:
 	std::intmax_t GetHakoID(std::uintmax_t X, std::uintmax_t Y) {
 		for (std::size_t i = 0; i < Hako.size(); i++) {
-			if (std::get<0>(Hako[i])==X &&std::get<1>(Hako[i])==Y) { return i; }
+			if (std::get<0>(Hako[i]) == X && std::get<1>(Hako[i]) == Y) { return i; }
 		}
 		return -1;
 	}
